@@ -9,44 +9,141 @@ import HeaderIcon from "../../../public/images/headerIcon";
 import * as H from "./styled";
 import { navItem } from "../../presenter/main/navItems";
 import Link from "next/link";
-import { CompanyDropDown, ServiceDropDown } from "../dropDown";
+import { } from "../dropDown";
 
 const Header: FC = () => {
   const [active, setActive] = useState(false);
   const [dropDown, setDropDown] = useState(false);
+  const [nav, setNav] = useState('');
 
   const onHandleToggle = () => {
     setActive(!active);
   };
+
+  const onHandleNav = (newNav: string) => {
+    // nav 상태 바꿔주는 코드
+    if (newNav === 'intro') {
+      setDropDown(true)
+      setNav('intro')
+    }
+    if (newNav === 'service') {
+      setDropDown(true)
+      setNav('service')
+    }
+    if (newNav === 'together') {
+      setDropDown(true)
+      setNav('together')
+    }
+    if (newNav === 'news') {
+      setDropDown(true)
+      setNav('news')
+    }
+  }
+
+
+
   return (
-    <H.Header>
+    <H.Header >
       <H.HeaderLogo>
         <a>
           <HeaderIcon />
         </a>
       </H.HeaderLogo>
-      <H.MainNav active={active}>
+      <H.MainNav active={active} onMouseLeave={() => setDropDown(false)}>
         <H.List>
-          <H.ListItem
-            onMouseEnter={() => setDropDown(true)}
-            onMouseLeave={() => setDropDown(false)}
-          >
-            <Link href={""}>회사소개</Link>
-            {dropDown && <CompanyDropDown />}
-          </H.ListItem>
-          <H.ListItem
-            onMouseEnter={() => setDropDown(true)}
-            onMouseLeave={() => setDropDown(false)}
-          >
-            <Link href={""}>서비스</Link>
-            {dropDown && <ServiceDropDown />}
-          </H.ListItem>
-          <H.ListItem>
-            <Link href={""}>함께가치</Link>
-          </H.ListItem>
-          <H.ListItem>
-            <Link href={""}>뉴스룸</Link>
-          </H.ListItem>
+
+          {navItem.map((item) => {
+            if (item.title === "회사소개") {
+              return (
+                <H.ListItem
+                  onMouseEnter={() => onHandleNav('intro')}
+
+                >
+                  <Link href={item.path}>{item.title}</Link>
+                  {
+                    {
+                      intro: (
+                        <H.SubList onClick={() => setDropDown(!dropDown)}>
+                          <H.SubItem dropDown={dropDown}>
+                            <Link href={""} onClick={() => setDropDown(false)}>
+                              {item.subTitle}
+                            </Link>
+                          </H.SubItem>
+                        </H.SubList>),
+
+                    }[nav]
+                  }
+
+
+                </H.ListItem>
+              );
+            }
+            if (item.title === "서비스") {
+              return (
+                <H.ListItem
+                  onMouseEnter={() => onHandleNav('service')}
+
+                >
+                  <Link href={item.path}>{item.title}</Link>
+                  {
+                    {
+                      service: (
+                        <H.SubList onClick={() => setDropDown(!dropDown)}>
+                          <H.SubItem dropDown={dropDown}>
+                            <Link href={""} onClick={() => setDropDown(false)}>
+                              {item.subTitle}
+                            </Link>
+                          </H.SubItem>
+                        </H.SubList>),
+
+                    }[nav]
+                  }
+
+
+                </H.ListItem>
+              );
+            }
+            if (item.title === "함께가치") {
+              return (
+                <H.ListItem onMouseEnter={() => onHandleNav('together')}>
+                  <Link href={item.path}>{item.title}</Link>
+                  {
+                    {
+                      together: (
+                        <H.SubList onClick={() => setDropDown(!dropDown)}>
+                          <H.SubItem dropDown={dropDown}>
+                            <Link href={""} onClick={() => setDropDown(false)}>
+                              {item.subTitle}
+                            </Link>
+                          </H.SubItem>
+                        </H.SubList>),
+
+                    }[nav]
+                  }
+                </H.ListItem>
+              );
+            }
+            if (item.title === "뉴스룸") {
+              return (
+                <H.ListItem onMouseEnter={() => onHandleNav('news')}>
+                  <Link href={item.path}>{item.title}</Link>
+                  {
+                    {
+                      news: (
+                        <H.SubList onClick={() => setDropDown(!dropDown)}>
+                          <H.SubItem dropDown={dropDown}>
+                            <Link href={""} onClick={() => setDropDown(false)}>
+                              {item.subTitle}
+                            </Link>
+                          </H.SubItem>
+                        </H.SubList>),
+
+                    }[nav]
+                  }
+                </H.ListItem>
+              );
+            }
+          })}
           <H.ListItem>
             <Link href={""}>글꼴</Link>
           </H.ListItem>

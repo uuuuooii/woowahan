@@ -46,7 +46,7 @@ const List = styled.ul`
 `;
 
 const Item = styled.li<{ dropDown: boolean }>`
-  display: ${(props) => (props.dropDown ? "none" : "block")};
+  display: ${(props) => (props.dropDown ? "block" : "none")};
   width: 10rem;
   height: 64px;
   background: gold;
